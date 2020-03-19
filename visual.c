@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define AANTAL 200
+#define AANTAL 1024
 #define MAXVAL 500
 #define LIVEVIEW
 #define FASTVIEW
@@ -109,7 +109,7 @@ void drawStaaf()
 
 void menu(int num)
 {
-	printf("%d\n",num);
+//	printf("%d\n",num);
 	switch(num)
 	{
 		case 0:
