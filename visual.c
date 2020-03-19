@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h> 
+#include <time.h>
 
 #define AANTAL 200
 #define MAXVAL 500
@@ -36,6 +36,7 @@ void cleanCursor();
 void sortSelectie();
 void sortInvoegen();
 void sortBubble();
+void sortQuick(int l, int r);
 
 
 void cleanCursor()
@@ -124,6 +125,9 @@ void menu(int num)
 		case 3:
 			sortBubble();
 			break;
+		case 4:
+			sortQuick(0,AANTAL);
+			break;
 	}
 	//glutPostRedisplay();
 }
@@ -135,6 +139,7 @@ void createMenu(void)
 	glutAddMenuEntry("sortSelectie",1);
 	glutAddMenuEntry("sortInvoegen",2);
 	glutAddMenuEntry("sortBubble",3);
+	glutAddMenuEntry("sortQuick",4);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -256,7 +261,40 @@ void sortBubble()
 		#endif
 	}
 	cleanCursor();
-
 }
 
+void sortQuick(int l, int r)
+{
+	int i, j;
+	int x, w;
+	i = l;
+	j = r;
+	x = sort_array[(int)((l+r)/2)];
+	do
+	{
+		g_cursor0 = i;
+		g_cursor1 = j;
+		while(sort_array[i] < x)
+			i++;
+		while(sort_array[j] > x)
+			j--;
+
+		if(i <= j)
+		{
+			w = sort_array[i];
+			sort_array[i++] = sort_array[j];
+			sort_array[j--] = w;
+		}
+		#ifdef LIVEVIEW
+		displayFcn();
+		delay(DELAY);
+		#endif
+	}
+	while(i <= j);
+	if( l < j )
+		sortQuick(l,j);
+	if( i < r )
+		sortQuick(i,r);
+	cleanCursor();
+}
 
