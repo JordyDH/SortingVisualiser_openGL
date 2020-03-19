@@ -5,10 +5,10 @@
 #include <time.h> 
 
 #define AANTAL 200
-#define MAXVAL 255
+#define MAXVAL 500
 #define LIVEVIEW
 #define FASTVIEW
-#define DELAY	10
+#define DELAY	100
 
 int sort_array[AANTAL];
 int g_xPadding	= 0;
@@ -48,7 +48,7 @@ void cleanCursor()
 void init(void)
 {
 	glClearColor(1.0,1.0,1.0,1.0);  /* window color white */
-	g_xPadding = AANTAL * 0.2;
+	g_xPadding = AANTAL * 0.1;
 	g_yPadding = MAXVAL * 0.05;
 	xmax  = AANTAL + (g_xPadding * 2);
 	ymax  = MAXVAL + (g_yPadding * 2);
@@ -251,7 +251,7 @@ void sortBubble()
 			#endif
 		}
 		#ifdef LIVEVIEW
-		//delay(DELAY);
+		delay(DELAY);
 		displayFcn();
 		#endif
 	}
