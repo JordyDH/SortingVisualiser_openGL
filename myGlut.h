@@ -1,0 +1,1 @@
+void glutBitmapString(void *font, char *string);
