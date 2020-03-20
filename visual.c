@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define AANTAL 1024
+#define TITLE "Sorting Algo Visualiser 0.2"
+
+#define AANTAL 150
 #define MAXVAL 500
 #define LIVEVIEW
 #define FASTVIEW
@@ -37,6 +39,7 @@ void sortSelectie();
 void sortInvoegen();
 void sortBubble();
 void sortQuick(int l, int r);
+void sortCocktail();
 
 
 void cleanCursor()
@@ -82,7 +85,7 @@ int main (int argc,char* argv[])
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
 	glutInitWindowPosition(100,100);  /* top left corner */
 	glutInitWindowSize(winWidth,winHeight);
-	glutCreateWindow("VisualSorter 0.1");
+	glutCreateWindow(TITLE);
 	init();
 	createMenu();
 	glutDisplayFunc(displayFcn);
@@ -128,6 +131,9 @@ void menu(int num)
 		case 4:
 			sortQuick(0,AANTAL);
 			break;
+		case 5:
+			sortCocktail();
+			break;
 	}
 	//glutPostRedisplay();
 }
@@ -136,10 +142,11 @@ void createMenu(void)
 {
 	g_menuId = glutCreateMenu(menu);
 	glutAddMenuEntry("refill array",0);
-	glutAddMenuEntry("sortSelectie",1);
-	glutAddMenuEntry("sortInvoegen",2);
-	glutAddMenuEntry("sortBubble",3);
-	glutAddMenuEntry("sortQuick",4);
+	glutAddMenuEntry("Selectie",1);
+	glutAddMenuEntry("Invoegen",2);
+	glutAddMenuEntry("Bubble",3);
+	glutAddMenuEntry("Quick",4);
+	glutAddMenuEntry("Cocktail",5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -298,3 +305,52 @@ void sortQuick(int l, int r)
 	cleanCursor();
 }
 
+void sortCocktail()
+{
+	int swapped = 1;
+	int start = 0;
+	int end = AANTAL-1;
+	int x;
+	while(swapped)
+	{
+		swapped = 0;
+		for(int i = start; i < end; i++)
+		{
+			g_cursor0 = i;
+			g_cursor1 = i+1;
+			if(sort_array[i] > sort_array[i+1])
+			{
+				x = sort_array[i];
+				sort_array[i]	= sort_array[i+1];
+				sort_array[i+1]	= x;
+				swapped = 1;
+			}
+			#ifdef LIVEVIEW
+			displayFcn();
+			delay(DELAY);
+			#endif
+		}
+		if(!swapped)break;
+
+		swapped = 0;
+		end--;
+		for(int i = end-1; i >= start; i--)
+		{
+			g_cursor0 = i;
+			g_cursor1 = i+1;
+			if(sort_array[i] > sort_array[i+1])
+			{
+				x = sort_array[i];
+				sort_array[i]	= sort_array[i+1];
+				sort_array[i+1]	= x;
+				swapped = 1;
+			}
+		#ifdef LIVEVIEW
+		displayFcn();
+		delay(DELAY);
+		#endif
+		}
+		start++;
+	}
+	cleanCursor();
+}
